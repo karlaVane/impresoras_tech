@@ -32,7 +32,6 @@ let impresoraShema = new Schema({
     ip: {
         type: String,
         required: [true, 'La IP de la impresora es requerido'],
-        unique: true
     },
     contador: {
         type: Number,
