@@ -99,9 +99,8 @@ app.delete('/impresora/:id', (req, res) => {
         } else {
             res.json({
                 ok: true,
-                impresora: impresoraEliminada,
-                message: 'impresora eliminada'
-            });
+                impresora: impresoraEliminada
+            })
         }
     });
 });
