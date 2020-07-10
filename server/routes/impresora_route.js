@@ -89,7 +89,7 @@ app.delete('/impresora/:id', (req, res) => {
                 err
             });
         }
-        if (!usuarioEliminado) {
+        if (!impresoraEliminada) {
             res.json({
                 ok: false, //porq no fue hayado
                 err: {
@@ -99,7 +99,8 @@ app.delete('/impresora/:id', (req, res) => {
         } else {
             res.json({
                 ok: true,
-                impresora: impresoraEliminada
+                impresora: impresoraEliminada,
+                message: 'impresora eliminada'
             })
         }
     });
