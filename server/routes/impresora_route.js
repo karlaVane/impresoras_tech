@@ -1,7 +1,6 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const _ = require('underscore')
-const Impresora = require('../models/usuario')
+const Impresora = require('../models/impresora')
 
 const app = express();
 
@@ -46,7 +45,7 @@ app.post('/impresora', (req, res) => {
             //password: bcrypt.hashSync(body.password, 10), //Para encriptar
     });
     //guardar en la bd
-    impresora.save((err, usuarioDB) => {
+    impresora.save((err, impresoraDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -56,7 +55,7 @@ app.post('/impresora', (req, res) => {
         //usuarioDB.password = null; // muestra la palabra password
         res.json({
             ok: true,
-            usuario: usuarioDB
+            usuario: impresoraDB
         });
     });
 });
@@ -64,9 +63,8 @@ app.post('/impresora', (req, res) => {
 app.put('/impresora/:id', (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['serie', 'contador', 'marca']); //solo se pueden cambiar estos parámetros
-    //delete body.password;
-    //delete body.google;
-    Impresora.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+
+    Impresora.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, impresoraDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -75,7 +73,7 @@ app.put('/impresora/:id', (req, res) => {
         }
         res.json({
             ok: true,
-            impresora: usuarioDB
+            impresora: impresoraDB
         });
     });
 });
@@ -83,9 +81,7 @@ app.put('/impresora/:id', (req, res) => {
 app.delete('/impresora/:id', (req, res) => {
     let id = req.params.id;
 
-    //Usuario.findByIdAndDelete(id, (err, usuarioEliminado) => {
-    //parecido a un metodo put
-    Impresora.findByIdAndDelete(id, (err, usuarioEliminado) => {
+    Impresora.findByIdAndDelete(id, (err, impresoraEliminada) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -100,16 +96,12 @@ app.delete('/impresora/:id', (req, res) => {
                     message: "Impresora no encontrada"
                 }
             });
-            //res.render('nombrepagina',par)
         } else {
             res.json({
                 ok: true,
-                impresora: usuarioEliminado
+                impresora: impresoraEliminada
             })
         }
-
     });
 });
-
-
 module.exports = app

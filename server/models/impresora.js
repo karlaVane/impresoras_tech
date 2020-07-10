@@ -4,13 +4,13 @@ var uniqueValidator = require('mongoose-unique-validator');
 //clase
 let Schema = mongoose.Schema; //esquema dentro de mi base de datos (objeto)
 
-//ROLES VALIDOS
+//IMPRESORAS VALIDOS
 let ImpresorasValidas = {
-        values: ['XEROX', 'LEXMARK', 'RICOH', 'EPSON', 'SAMSUNG', 'KYOCERA', 'SHARP', 'COPYSTAR'],
-        message: '{VALUE} no es un nombre de impresora válido'
-    }
-    //objeto
-let usuarioShema = new Schema({
+    values: ['XEROX', 'LEXMARK', 'RICOH', 'EPSON', 'SAMSUNG', 'KYOCERA', 'SHARP', 'COPYSTAR'],
+    message: '{VALUE} no es un nombre de impresora válido'
+};
+//objeto
+let impresoraShema = new Schema({
     marca: {
         type: String,
         required: [true, 'La marca de la impresora es requerido'],
@@ -34,12 +34,6 @@ let usuarioShema = new Schema({
         required: [true, 'La IP de la impresora es requerido'],
         unique: true
     },
-    /*
-    role: {
-        type: String,
-        default: 'USER_ROLE',
-        enum: rolesValidos
-    },*/
     contador: {
         type: Number,
         default: 0
@@ -51,13 +45,13 @@ let usuarioShema = new Schema({
 });
 
 //error mas lindo
-usuarioShema.plugin(uniqueValidator, { message: '{PATH} deber ser único' }); //para que el correo sea único
+impresoraShema.plugin(uniqueValidator, { message: '{PATH} ya existe el mismo registrado' });
 
-usuarioShema.methods.toJSON = function() {
+impresoraShema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();
     delete userObject.password;
     return userObject;
 }
 
-module.exports = mongoose.model('impresora', usuarioShema)
+module.exports = mongoose.model('impresora', impresoraShema)
